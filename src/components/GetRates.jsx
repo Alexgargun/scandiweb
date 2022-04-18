@@ -1,6 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import CurrencyList from "./CurrencyList";
 
 const getRates = gql`
   {
@@ -12,20 +13,32 @@ const getRates = gql`
 `;
 
 class GetRates extends React.Component {
-  state = {
-    display1: false,
-  };
   render() {
     return (
-      <div className="currency-switcher">
+      <div
+        className={`currency-switcher ${
+          this.props.displaySwitcher ? "active" : ""
+        }`}
+      >
         <Query query={getRates}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading…</p>;
             if (error) return <p>Error :(</p>;
-            console.log(data.currencies);
-            return data.currencies.map(({ label, symbol }) => (
-              <p key={label}>{`${symbol} ${label}`}</p>
-            ));
+            return (
+              <ul>
+                {Object.keys(data.currencies).map((key) => {
+                  return (
+                    <CurrencyList
+                      getSymbol={this.props.getSymbol}
+                      currentCurrency={this.props.currentCurrency}
+                      currencyDetails={data.currencies[key]}
+                      id={key}
+                      key={key}
+                    />
+                  );
+                })}
+              </ul>
+            );
           }}
         </Query>
       </div>

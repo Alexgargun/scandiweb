@@ -2,11 +2,13 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ProductCard from "./ProductCard";
+
 const getProducts = gql`
   {
     categories {
       name
       products {
+        id
         name
         inStock
         description
@@ -26,16 +28,17 @@ const getProducts = gql`
 
 class Data extends React.Component {
   render() {
+    //console.log(this.props.data);
     return (
       <Query query={getProducts}>
         {({ data, loading, error }) => {
           if (loading) return <p>Loading…</p>;
           if (error) return <p>Error :(</p>;
           console.log(data);
-          let result = data.categories.filter((element) => {
+          data.categories.filter((element) => {
             return element.name === "all";
           });
-          console.log(result);
+          //console.log(result);
           return (
             <div className="container">
               {data.categories
@@ -49,12 +52,10 @@ class Data extends React.Component {
                   <>
                     <h2 className="title">{name}</h2>
                     <div className="card-wrapper" key={name}>
-                      {/* <button onClick={(e) => console.log(e.target)}>
-                        {name}
-                      </button> */}
                       {Object.keys(products).map((key) => {
                         return (
                           <ProductCard
+                            idx={this.props.id}
                             key={key}
                             index={key}
                             details={products[key]}

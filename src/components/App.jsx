@@ -2,18 +2,19 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import Data from "./Data";
-import CartProduct from "./CartProduct";
+//import CartProduct from "./CartProduct";
 import GetRates from "./GetRates";
-//import queryHoc from "./queryHoc";
+import Cart from "./Cart";
+//import getRates from "./queryHoc";
 
-// const getRates = gql`
-//   {
-//     currencies {
-//       label
-//       symbol
-//     }
-//   }
-// `;
+const getRates = gql`
+  {
+    currencies {
+      label
+      symbol
+    }
+  }
+`;
 
 const getProducts = gql`
   {
@@ -42,27 +43,46 @@ class App extends React.Component {
     display: false,
     displayCurrencySwitcher: false,
     title: "",
+    index: "0",
+    currencySymbol: "$",
   };
 
   categorySwitch = (e) => {
     e.preventDefault();
-    const { title } = this.state;
     this.setState({ title: e.target.innerText.toLowerCase() });
-    console.log(title);
   };
 
-  displayCart = () => {
+  displayCart = (e) => {
+    e.stopPropagation();
     const { display } = this.state;
     this.setState({ display: !display });
   };
 
-  displaySwitcher = () => {
+  displaySwitcher = (e) => {
+    e.stopPropagation();
     const { displayCurrencySwitcher } = this.state;
     this.setState({ displayCurrencySwitcher: !displayCurrencySwitcher });
   };
+
+  turnOfModals = () => {
+    this.setState({ displayCurrencySwitcher: false });
+    this.setState({ display: false });
+  };
+
+  currentCurrency = (key) => {
+    this.setState({ index: key });
+
+    console.log(key);
+  };
+
+  getSymbol = (e) => {
+    this.setState({ currencySymbol: e.target.innerText });
+    console.log("click");
+  };
+
   render() {
     return (
-      <div className="App">
+      <div onClick={this.turnOfModals} className="App">
         <header className="header ">
           <div className="container header-container">
             <nav className="menu">
@@ -96,25 +116,22 @@ class App extends React.Component {
             </div>
             <div className="menu-icons">
               <div onClick={this.displaySwitcher} className="currency">
-                <p>$</p>
+                <p>
+                  {this.state.currencySymbol ? this.state.currencySymbol : null}
+                </p>
               </div>
-              {this.state.displayCurrencySwitcher ? <GetRates /> : null}
+              <GetRates
+                getSymbol={this.getSymbol}
+                currentCurrency={this.currentCurrency}
+                displaySwitcher={this.state.displayCurrencySwitcher}
+              />
               <div onClick={this.displayCart} className="empty-cart"></div>
-              {this.state.display ? (
-                <div className="cart-wrapper">
-                  <h5 className="cart-title">My Bag, 2 items</h5>
-                  <h6>Apollo Running Short</h6>
-                  <div className="cart-buttons">
-                    <button>VIEW BAG</button>
-                    <button>CHECK OUT</button>
-                  </div>
-                </div>
-              ) : null}
+              {this.state.display ? <Cart /> : null}
             </div>
           </div>
         </header>
-        <main className="main">
-          <Data title={this.state.title} />
+        <main className={`main ${this.state.display ? "blur" : ""}`}>
+          <Data id={this.state.index} title={this.state.title} />
         </main>
       </div>
     );

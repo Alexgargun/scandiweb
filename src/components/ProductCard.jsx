@@ -1,8 +1,9 @@
 import React from "react";
+import CurrentPriceCurrency from "./CurrentPriceCurrency";
 
 class ProductCard extends React.Component {
   render() {
-    //const { name, id, description } =
+    const { prices } = this.props.details;
 
     return (
       <div className="card">
@@ -11,7 +12,17 @@ class ProductCard extends React.Component {
         </div>
         <div className="card-content">
           <h4 className="card-title">{this.props.details.name}</h4>
-          <h4 className="card-price">{this.props.details.name}</h4>
+          {Object.keys(this.props.details.prices).map((key) => {
+            return (
+              <CurrentPriceCurrency
+                idx={this.props.idx}
+                id={key}
+                key={key}
+                pricesDetails={this.props.details.prices[key]}
+                className="card-price"
+              />
+            );
+          })}
         </div>
       </div>
     );

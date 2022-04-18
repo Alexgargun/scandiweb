@@ -1,5 +1,5 @@
 import { graphql } from "react-apollo";
-
+import { compose } from "recompose";
 import { getRates } from "./queries";
 
-export default graphql(getRates);
+export default compose(graphql(getRates));
