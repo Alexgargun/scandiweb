@@ -1,5 +1,10 @@
 import { graphql } from "react-apollo";
-import { compose } from "recompose";
-import { getRates } from "./queries";
+import { GET_PRODUCT_BY_ID } from "./queries";
 
-export default compose(graphql(getRates));
+const withGraphQl = graphql(GET_PRODUCT_BY_ID, {
+  options: ({ id = "" }) => ({
+    variables: { id },
+  }),
+});
+
+export default withGraphQl;

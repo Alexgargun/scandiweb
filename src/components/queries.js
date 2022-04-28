@@ -42,7 +42,7 @@ export const GET_PRODUCTS_BY_CATEGORIGY = gql`
 `;
 
 export const GET_PRODUCT_BY_ID = gql`
-  query ($id: String!) {
+  query product($id: String!) {
     product(id: $id) {
       id
       name
@@ -83,6 +83,31 @@ export const GET_CAREGORIES = gql`
   query {
     categories {
       name
+      products {
+        id
+        name
+        inStock
+        description
+        gallery
+        brand
+        prices {
+          amount
+          currency {
+            label
+            symbol
+          }
+        }
+        attributes {
+          id
+          name
+          type
+          items {
+            displayValue
+            value
+            id
+          }
+        }
+      }
     }
   }
 `;

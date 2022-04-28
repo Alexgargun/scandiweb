@@ -5,16 +5,8 @@ import Data from "./Data";
 //import CartProduct from "./CartProduct";
 import GetRates from "./GetRates";
 import Cart from "./Cart";
-//import getRates from "./queryHoc";
-
-const getRates = gql`
-  {
-    currencies {
-      label
-      symbol
-    }
-  }
-`;
+import ProductPage from "./ProductPage";
+import CartPage from "./CartPage";
 
 const getProducts = gql`
   {
@@ -45,6 +37,34 @@ class App extends React.Component {
     title: "",
     index: "0",
     currencySymbol: "$",
+    id: "ps-5",
+    order: {},
+    prices: {},
+  };
+
+  getAmount = (key) => {
+    const prices = { ...this.state.prices };
+    prices[key] = prices[key] + 1 || 1;
+    this.setState({ prices: prices });
+    console.log(prices);
+  };
+
+  addToOrder = (key) => {
+    const order = { ...this.state.order };
+    order[key] = order[key] + 1 || 1;
+    this.setState({ order: order });
+  };
+  deleteFromOrder = (key) => {
+    const order = { ...this.state.order };
+    order[key] = order[key] - 1 || null;
+    if (order[key] === null) {
+      delete order[key];
+    }
+    this.setState({ order: order });
+  };
+
+  getProductId = (key) => {
+    this.setState({ id: key });
   };
 
   categorySwitch = (e) => {
@@ -81,6 +101,14 @@ class App extends React.Component {
   };
 
   render() {
+    const order = { ...this.state.order };
+    let orderArray = Object.keys(order).map((key) => {
+      return order[key];
+    });
+    // const count = Object.keys(order);
+    const count = orderArray.reduce((prev, key) => prev + key, 0);
+
+    console.log(count);
     return (
       <div onClick={this.turnOfModals} className="App">
         <header className="header ">
@@ -125,13 +153,33 @@ class App extends React.Component {
                 currentCurrency={this.currentCurrency}
                 displaySwitcher={this.state.displayCurrencySwitcher}
               />
-              <div onClick={this.displayCart} className="empty-cart"></div>
+              <div onClick={this.displayCart} className="empty-cart">
+                <spsn className="empty-cart-counter">{count}</spsn>
+              </div>
+
               {this.state.display ? <Cart /> : null}
             </div>
           </div>
         </header>
         <main className={`main ${this.state.display ? "blur" : ""}`}>
-          <Data id={this.state.index} title={this.state.title} />
+          <Data
+            order={this.state.order}
+            getProductId={this.getProductId}
+            id={this.state.index}
+            title={this.state.title}
+          />
+          <ProductPage
+            getAmount={this.getAmount}
+            addToOrder={this.addToOrder}
+            index={this.state.index}
+            id={this.state.id}
+          />
+          <CartPage
+            deleteFromOrder={this.deleteFromOrder}
+            addToOrder={this.addToOrder}
+            index={this.state.index}
+            order={this.state.order}
+          />
         </main>
       </div>
     );

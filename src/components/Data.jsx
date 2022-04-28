@@ -34,7 +34,7 @@ class Data extends React.Component {
         {({ data, loading, error }) => {
           if (loading) return <p>Loading…</p>;
           if (error) return <p>Error :(</p>;
-          console.log(data);
+
           data.categories.filter((element) => {
             return element.name === "all";
           });
@@ -50,11 +50,14 @@ class Data extends React.Component {
                 })
                 .map(({ name, products }) => (
                   <>
-                    <h2 className="title">{name}</h2>
+                    <h1 className="title">{name}</h1>
                     <div className="card-wrapper" key={name}>
                       {Object.keys(products).map((key) => {
                         return (
                           <ProductCard
+                            order={this.props.order}
+                            // isActive={this.props.isActive}
+                            getProductId={this.props.getProductId}
                             idx={this.props.id}
                             key={key}
                             index={key}

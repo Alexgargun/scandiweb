@@ -9,8 +9,8 @@ class CurrencyList extends React.Component {
       <li onClick={this.handleClick}>
         <span onClick={this.props.getSymbol}>
           {this.props.currencyDetails.symbol}
+          {this.props.currencyDetails.label}
         </span>{" "}
-        {this.props.currencyDetails.label}
       </li>
     );
   }
