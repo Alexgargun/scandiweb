@@ -1,13 +1,19 @@
-.cart-title {
+.cart-total-amount {
+    padding: 42px 0px 37px 0px;
+}
+
+.cart-total-amount .cart-title {
 font-family: 'Raleway';
 font-size: 16px;
 font-weight: 700;
 line-height: 26px;
 letter-spacing: 0em;
+text-align: right;
 }
 
-.title span {
+.cart-total-amount .cart-title-semibold {
 font-weight: 500;
+text-align: left;
 }
 
 

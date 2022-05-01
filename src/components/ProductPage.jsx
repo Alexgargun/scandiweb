@@ -1,4 +1,5 @@
 import React from "react";
+
 import ProductPrice from "./ProductPrice";
 import withHocs from "./queryHoc";
 
@@ -21,16 +22,33 @@ class ProductPage extends React.Component {
     const { gallery = [] } = product;
     const { prices = [] } = product;
     const { attributes = [] } = product;
-    const newAmount = prices.map((key) => {
-      return key;
+
+    const newAmount = prices.map(({ amount }) => {
+      return amount;
     });
+    //.find((item, idx) => idx === this.props.index);
+    // let newAmountId = [];
+    // var temp = "";
+    // do {
+    //   temp = prompt("Enter a number. Press cancel or leave empty to finish.");
+    //   if (temp === "" || temp === null) {
+    //     break;
+    //   } else {
+    //     newAmountId.push(temp); // the array will dynamically grow
+    //   }
+    // } while (1);
+
+    // prices.forEach(({ amount, currency }) => {
+    //   console.log(amount, currency);
+    // });
+
     // const currentAmount = Object.keys(newAmount).map((key) => {
     //   return key;
     // });
     // if (key === this.props.index) {
     //   console.log(newAmount[key]);
     // }
-    console.log(newAmount[this.props.index]);
+    //console.log(newAmount);
     return (
       <section className="product-page">
         <div className="container">
@@ -71,6 +89,7 @@ class ProductPage extends React.Component {
                 {Object.keys(prices).map((key) => {
                   return (
                     <ProductPrice
+                      newAmount={newAmount}
                       addToOrder={this.props.addToOrder}
                       id={this.props.id}
                       getAmount={this.props.getAmount}

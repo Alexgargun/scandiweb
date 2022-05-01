@@ -3,7 +3,7 @@ import React from "react";
 class ProductPrice extends React.Component {
   handleClick = () => {
     this.props.addToOrder(this.props.id);
-    this.props.getAmount(this.props.pricesDetails.amount);
+    this.props.getAmount(this.props.newAmount);
   };
   // amountValue = () => {
   //   this.props.getAmount(this.props.pricesDetails.amount);

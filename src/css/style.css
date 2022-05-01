@@ -45,6 +45,8 @@ button {
   font-weight: 400;
   padding: 28px 16px 32px 16px;
   box-sizing: border-box;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .menu-link:hover{
@@ -267,16 +269,18 @@ letter-spacing: 0em;
 }
 
 .cart-buttons button {
+  display: inline-block;
   padding: 16px 32px;
   font-family: 'Raleway', sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
-  min-width: 140px;
+  transition: all 0.3s ease ;
 }
 
-.cart-buttons button:last-child {
+.cart-buttons button:hover {
   background-color: #5ECE7B;
-
+  border-color: transparent;
+  color: #fff;
 }
 
 /* CartProduct */
