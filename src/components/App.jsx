@@ -2,7 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import Data from "./Data";
-//import CartProduct from "./CartProduct";
+import Router from "./Router";
 import GetRates from "./GetRates";
 import Cart from "./Cart";
 import ProductPage from "./ProductPage";
@@ -32,6 +32,9 @@ const getProducts = gql`
 
 class App extends React.Component {
   state = {
+    displayCategoryPage: true,
+    displayProductPage: false,
+    displayCartPage: false,
     display: false,
     displayCurrencySwitcher: false,
     title: "",
@@ -40,6 +43,22 @@ class App extends React.Component {
     id: "ps-5",
     order: {},
     prices: {},
+  };
+
+  showProductPage = () => {
+    this.setState({ displayCategoryPage: false });
+    this.setState({ displayCartPage: false });
+    this.setState({ displayProductPage: true });
+  };
+  showCartPage = () => {
+    this.setState({ displayCategoryPage: false });
+    this.setState({ displayCartPage: true });
+    this.setState({ displayProductPage: false });
+  };
+  showCategoryPage = () => {
+    this.setState({ displayCategoryPage: true });
+    this.setState({ displayCartPage: false });
+    this.setState({ displayProductPage: false });
   };
 
   getAmount = (key) => {
@@ -76,6 +95,7 @@ class App extends React.Component {
     e.stopPropagation();
     const { display } = this.state;
     this.setState({ display: !display });
+    console.log(display);
   };
 
   displaySwitcher = (e) => {
@@ -96,7 +116,7 @@ class App extends React.Component {
   };
 
   getSymbol = (e) => {
-    this.setState({ currencySymbol: e.target.innerText });
+    this.setState({ currencySymbol: e.target.innerText[0] });
     console.log("click");
   };
 
@@ -117,31 +137,13 @@ class App extends React.Component {
     for (let i = 0; i < pricesArray.length; i++) {
       totalAmount += pricesArray[i] * orderArray[i];
     }
-    // let newOrderArray1 = Object.keys(newOrderArray).map((key) => {
-    //   return newOrderArray[key];
-    // });
 
-    // const pricesArray = Object.keys(prices)
-    //   .join("")
-    //   .split(",")
-    //   .find((item, idx) => idx === parseFloat(this.state.index));
-
-    // const pricesArrayItem = [];
-    // pricesArrayItem.push(pricesArray[this.state.index]);
-
-    //console.log(Array.isArray(pricesArray));
-    // let newPricesArray = pricesArray.find((item) => item == this.state.index);
-    // let newPricesArray1 = Object.keys(newPricesArray).map((key) => {
-    //   return newPricesArray[key];
-    // });
-
-    // let currentCurrencyAmount = newPricesArray1[this.state.index];
-    //let currentProductAmount = currentCurrencyAmount * orderArray;
     const itemsCount = orderArray.reduce((prev, key) => prev + key, 0);
 
-    // console.log(currentCurrencyAmount);
-    console.log(pricesArray);
-    console.log(totalAmount);
+    const { currencySymbol } = this.state;
+
+    console.log(currencySymbol[0]);
+
     return (
       <div onClick={this.turnOfModals} className="App">
         <header className="header ">
@@ -152,7 +154,7 @@ class App extends React.Component {
                   if (loading) return <p>Loading…</p>;
                   if (error) return <p>Error :(</p>;
                   return (
-                    <ul className="menu-list">
+                    <ul onClick={this.showCategoryPage} className="menu-list">
                       {data.categories.map(({ name, products }) => (
                         <li
                           onClick={this.categorySwitch}
@@ -166,14 +168,9 @@ class App extends React.Component {
                   );
                 }}
               </Query>
-              {/* <ul className="menu-list">
-                <li className="">women</li>
-                <li className="menu-link">men</li>
-                <li className="menu-link">kids</li>
-              </ul> */}
             </nav>
             <div className="logo-wrapper">
-              <div className="logo"></div>
+              <div onClick={this.showCategoryPage} className="logo"></div>
             </div>
             <div className="menu-icons">
               <div onClick={this.displaySwitcher} className="currency">
@@ -192,6 +189,11 @@ class App extends React.Component {
 
               {this.state.display ? (
                 <Cart
+                  deleteFromOrder={this.deleteFromOrder}
+                  showCartPage={this.showCartPage}
+                  itemsCount={itemsCount}
+                  addToOrder={this.addToOrder}
+                  display={this.state.display}
                   currencySymbol={this.state.currencySymbol}
                   totalAmount={totalAmount}
                   prices={this.state.prices}
@@ -203,24 +205,32 @@ class App extends React.Component {
           </div>
         </header>
         <main className={`main ${this.state.display ? "blur" : ""}`}>
-          <Data
-            order={this.state.order}
-            getProductId={this.getProductId}
-            id={this.state.index}
-            title={this.state.title}
-          />
-          <ProductPage
-            getAmount={this.getAmount}
-            addToOrder={this.addToOrder}
-            index={this.state.index}
-            id={this.state.id}
-          />
-          <CartPage
-            deleteFromOrder={this.deleteFromOrder}
-            addToOrder={this.addToOrder}
-            index={this.state.index}
-            order={this.state.order}
-          />
+          {this.state.displayCategoryPage ? (
+            <Data
+              showProductPage={this.showProductPage}
+              order={this.state.order}
+              getProductId={this.getProductId}
+              id={this.state.index}
+              title={this.state.title}
+            />
+          ) : null}
+          {this.state.displayProductPage ? (
+            <ProductPage
+              getAmount={this.getAmount}
+              addToOrder={this.addToOrder}
+              index={this.state.index}
+              id={this.state.id}
+            />
+          ) : null}
+          {this.state.displayCartPage ? (
+            <CartPage
+              display={this.state.display}
+              deleteFromOrder={this.deleteFromOrder}
+              addToOrder={this.addToOrder}
+              index={this.state.index}
+              order={this.state.order}
+            />
+          ) : null}
         </main>
       </div>
     );

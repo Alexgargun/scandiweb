@@ -45,5 +45,9 @@
   },
   "devDependencies": {
     "concurrently": "^5.0.0"
+  },
+
+  "resolutions": {
+    "styled-components": "^5"
   }
 }

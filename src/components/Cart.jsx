@@ -20,13 +20,22 @@ class Cart extends React.Component {
   render() {
     return (
       <div className="cart-wrapper">
-        <h4 className="cart-title">
-          My Bag,{" "}
-          <span className="cart-title-semibold">{this.props.count} items</span>{" "}
-        </h4>
+        <div className="cart-header">
+          <h4 className="cart-title">
+            My Bag,{" "}
+            <span className="cart-title-semibold">
+              {this.props.itemsCount} items
+            </span>{" "}
+          </h4>
+          <button className="close-cart"></button>
+        </div>
+
         {Object.keys(this.props.order).map((key) => {
           return (
             <CartProductItem
+              deleteFromOrder={this.props.deleteFromOrder}
+              addToOrder={this.props.addToOrder}
+              display={this.props.display}
               count={this.props.order[key]}
               index={this.props.index}
               id={key}
@@ -43,8 +52,8 @@ class Cart extends React.Component {
         </div>
 
         <div className="cart-buttons">
-          <Button>VIEW BAG</Button>
-          <Button>CHECK OUT</Button>
+          <Button onClick={this.props.showCartPage}>VIEW BAG</Button>
+          <Button onClick={this.props.showCartPage}>CHECK OUT</Button>
           {/* <button>VIEW BAG</button>
           <button>CHECK OUT</button> */}
         </div>

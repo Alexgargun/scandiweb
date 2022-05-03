@@ -1,3 +1,9 @@
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .cart-total-amount {
     padding: 42px 0px 37px 0px;
 }
@@ -9,6 +15,21 @@ font-weight: 700;
 line-height: 26px;
 letter-spacing: 0em;
 text-align: right;
+}
+.cart-wrapper .cart-title {
+font-family: 'Raleway';
+font-size: 16px;
+font-weight: 700;
+line-height: 26px;
+letter-spacing: 0em;
+text-align: left;
+}
+
+.close-cart {
+    background: url(../assets/svg/close-cart.svg);
+    background-size: contain;
+    height: 14px;
+    width: 14px;
 }
 
 .cart-total-amount .cart-title-semibold {

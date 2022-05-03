@@ -55,6 +55,7 @@ class Data extends React.Component {
                       {Object.keys(products).map((key) => {
                         return (
                           <ProductCard
+                            showProductPage={this.props.showProductPage}
                             order={this.props.order}
                             // isActive={this.props.isActive}
                             getProductId={this.props.getProductId}

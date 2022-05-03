@@ -1,7 +1,25 @@
 import React from "react";
 import withHocs from "./queryHoc";
 import CartProductPrice from "./CartProductPrice";
-//import Attributes from "./Attributes";
+//import styled from 'styled-components'
+
+// const Button = styled.button`
+//   /* Adapt the colors based on primary prop */
+//   background: ${props => props.d ? "palevioletred" : "white"};
+//   color: ${props => props.primary ? "white" : "palevioletred"};
+
+//   font-size: 30px;
+//   border: 1px solid #1D1F22;
+//   height: ${this.props.display ? "24" : "45px"}; ;
+//   width: 45px;
+// `;
+
+// const StyledCounter = styled.div`
+// padding: 20px 0px;
+// border-top: 1px solid #E5E5E5;
+// display: flex;
+// justify-content: space-between;
+// `;
 
 class CartProductItem extends React.Component {
   // handleClickAdd = () => {
@@ -31,10 +49,19 @@ class CartProductItem extends React.Component {
     return (
       <div className="cart-page-item">
         <div className="cart-page-left">
-          <h2 className="cart-product-title">{product.name}</h2>
+          <h2
+            className={
+              this.props.display
+                ? "cart-product-title-modal"
+                : "cart-product-title"
+            }
+          >
+            {product.name}
+          </h2>
           {Object.keys(prices).map((key) => {
             return (
               <CartProductPrice
+                display={this.props.display}
                 count={this.props.count}
                 key={key}
                 pricesIndex={key}
@@ -43,7 +70,13 @@ class CartProductItem extends React.Component {
               />
             );
           })}
-          <div className="product-attributes">
+          <div
+            className={
+              this.props.display
+                ? "product-attributes-modal"
+                : "product-attributes"
+            }
+          >
             {attributes.map(({ items }) => {
               return items.map(({ displayValue, id, value }) => {
                 return (

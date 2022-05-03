@@ -10,7 +10,7 @@ class ProductCard extends React.Component {
 
     return (
       <div onClick={this.handleProductIdClick} className="card">
-        <div className="image">
+        <div onClick={this.props.showProductPage} className="image">
           <img src={this.props.details.gallery} alt="" />
         </div>
         {Object.keys(this.props.order).map((item) => {
