@@ -2,6 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ProductCard from "./ProductCard";
+import CategoryPage from "./CategoryPage";
 
 const getProducts = gql`
   {
@@ -35,10 +36,10 @@ class Data extends React.Component {
           if (loading) return <p>Loading…</p>;
           if (error) return <p>Error :(</p>;
 
-          data.categories.filter((element) => {
-            return element.name === "all";
+          const categoryInput = data.categories.map(({ name }) => {
+            return name;
           });
-          //console.log(result);
+          console.log(categoryInput);
           return (
             <div className="container">
               {data.categories
@@ -69,6 +70,7 @@ class Data extends React.Component {
                     </div>
                   </>
                 ))}
+              <CategoryPage categoryInput={"all"} />
             </div>
           );
         }}
