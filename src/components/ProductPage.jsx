@@ -4,9 +4,15 @@ import ProductPrice from "./ProductPrice";
 import withHocs from "./queryHoc";
 
 class ProductPage extends React.Component {
-  // handleClick = () => {
-  //   this.props.addToOrder(this.props.id);
+  state = {
+    mainImage: "",
+  };
+
+  // setMainImage = (key) => {
+  //   console.log(key);
+  //   //this.setState({ mainImage: key });
   // };
+
   handleSearch = () => {
     const { data } = this.props;
     const { id } = this.props.id;
@@ -23,32 +29,12 @@ class ProductPage extends React.Component {
     const { prices = [] } = product;
     const { attributes = [] } = product;
 
+    console.log(product);
+
     const newAmount = prices.map(({ amount }) => {
       return amount;
     });
-    //.find((item, idx) => idx === this.props.index);
-    // let newAmountId = [];
-    // var temp = "";
-    // do {
-    //   temp = prompt("Enter a number. Press cancel or leave empty to finish.");
-    //   if (temp === "" || temp === null) {
-    //     break;
-    //   } else {
-    //     newAmountId.push(temp); // the array will dynamically grow
-    //   }
-    // } while (1);
 
-    // prices.forEach(({ amount, currency }) => {
-    //   console.log(amount, currency);
-    // });
-
-    // const currentAmount = Object.keys(newAmount).map((key) => {
-    //   return key;
-    // });
-    // if (key === this.props.index) {
-    //   console.log(newAmount[key]);
-    // }
-    //console.log(newAmount);
     return (
       <section className="product-page">
         <div className="container">
@@ -57,31 +43,33 @@ class ProductPage extends React.Component {
               {gallery.map((key) => {
                 return (
                   <div key={key} className="product-aside-image">
-                    <img src={key} alt="" />
+                    <img
+                      onClick={() => this.setState({ mainImage: key })}
+                      src={key}
+                      alt="product-pic"
+                    />
                   </div>
                 );
               })}
             </div>
             <div className="product-container">
               <div className="product-container-image">
-                <img src={product.gallery} alt="" />
+                <img src={this.state.mainImage || gallery} alt="" />
               </div>
               <div className="product-data">
                 <h3 className="name">
                   {product.name} <span></span>{" "}
                 </h3>
-                {attributes.map(({ name, items }) => {
+                {attributes.map(({ name, items, id }) => {
                   return (
-                    <>
-                      <h3 className="attributes" key={name}>
-                        {name}:
-                      </h3>
+                    <div className="attributes-wrapper" key={id}>
+                      <h3 className="attributes">{name}:</h3>
                       <div className="product-attributes" key={items.id}>
-                        {items.map(({ displayValue }) => {
-                          return <div key={displayValue}>{displayValue}</div>;
+                        {items.map(({ displayValue, id, value }) => {
+                          return <div key={id}>{displayValue}</div>;
                         })}
                       </div>
-                    </>
+                    </div>
                   );
                 })}
                 <h3>Price:</h3>

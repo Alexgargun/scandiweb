@@ -7,6 +7,8 @@ import GetRates from "./GetRates";
 import Cart from "./Cart";
 import ProductPage from "./ProductPage";
 import CartPage from "./CartPage";
+import Modal from "react-modal";
+import CartModal from "./CartModal";
 
 const getProducts = gql`
   {
@@ -37,12 +39,17 @@ class App extends React.Component {
     displayCartPage: false,
     display: false,
     displayCurrencySwitcher: false,
-    title: "",
+    title: "all",
     index: "0",
     currencySymbol: "$",
     id: "ps-5",
     order: {},
     prices: {},
+  };
+
+  closeCart = () => {
+    this.setState({ display: false });
+    console.log("onClose");
   };
 
   showProductPage = () => {
@@ -54,6 +61,7 @@ class App extends React.Component {
     this.setState({ displayCategoryPage: false });
     this.setState({ displayCartPage: true });
     this.setState({ displayProductPage: false });
+    this.setState({ display: false });
   };
   showCategoryPage = () => {
     this.setState({ displayCategoryPage: true });
@@ -91,11 +99,9 @@ class App extends React.Component {
     this.setState({ title: e.target.innerText.toLowerCase() });
   };
 
-  displayCart = (e) => {
-    e.stopPropagation();
-    const { display } = this.state;
-    this.setState({ display: !display });
-    console.log(display);
+  displayCart = () => {
+    this.setState({ display: true });
+    this.setState({ displayCurrencySwitcher: false });
   };
 
   displaySwitcher = (e) => {
@@ -142,20 +148,20 @@ class App extends React.Component {
 
     const { currencySymbol } = this.state;
 
-    console.log(currencySymbol[0]);
+    console.log(this.state.id);
 
     return (
-      <div onClick={this.turnOfModals} className="App">
+      <div className="App">
         <header className="header ">
           <div className="container header-container">
             <nav className="menu">
               <Query query={getProducts}>
                 {({ data, loading, error }) => {
                   if (loading) return <p>Loading…</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (error) return <p>Error : </p>;
                   return (
                     <ul onClick={this.showCategoryPage} className="menu-list">
-                      {data.categories.map(({ name, products }) => (
+                      {data.categories.map(({ name }) => (
                         <li
                           onClick={this.categorySwitch}
                           className="menu-link"
@@ -184,23 +190,21 @@ class App extends React.Component {
                 displaySwitcher={this.state.displayCurrencySwitcher}
               />
               <div onClick={this.displayCart} className="empty-cart">
-                <spsn className="empty-cart-counter">{itemsCount}</spsn>
+                <span className="empty-cart-counter">{itemsCount}</span>
               </div>
-
-              {this.state.display ? (
-                <Cart
-                  deleteFromOrder={this.deleteFromOrder}
-                  showCartPage={this.showCartPage}
-                  itemsCount={itemsCount}
-                  addToOrder={this.addToOrder}
-                  display={this.state.display}
-                  currencySymbol={this.state.currencySymbol}
-                  totalAmount={totalAmount}
-                  prices={this.state.prices}
-                  order={this.state.order}
-                  index={this.state.index}
-                />
-              ) : null}
+              <Cart
+                closeCart={this.closeCart}
+                deleteFromOrder={this.deleteFromOrder}
+                showCartPage={this.showCartPage}
+                itemsCount={itemsCount}
+                addToOrder={this.addToOrder}
+                display={this.state.display}
+                currencySymbol={this.state.currencySymbol}
+                totalAmount={totalAmount}
+                prices={this.state.prices}
+                order={this.state.order}
+                index={this.state.index}
+              />
             </div>
           </div>
         </header>

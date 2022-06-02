@@ -44,8 +44,9 @@ class CartProductItem extends React.Component {
     const { gallery = [] } = product;
     const { prices = [] } = product;
     const { attributes = [] } = product;
-    //console.log(prices);
+    console.log(this.props.count);
     console.log(data);
+
     return (
       <div className="cart-page-item">
         <div className="cart-page-left">

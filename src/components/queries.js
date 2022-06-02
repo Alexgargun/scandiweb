@@ -9,7 +9,7 @@ export const getRates = gql`
   }
 `;
 
-export const GET_PRODUCTS_BY_CATEGORIGY = gql`
+export const GET_PRODUCTS_BY_CATEGORY = gql`
   query ($filter: String!) {
     category(input: { title: $filter }) {
       products {
