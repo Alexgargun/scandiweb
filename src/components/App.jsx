@@ -112,7 +112,6 @@ class App extends React.Component {
 
   turnOfModals = () => {
     this.setState({ displayCurrencySwitcher: false });
-    this.setState({ display: false });
   };
 
   currentCurrency = (key) => {
@@ -151,7 +150,7 @@ class App extends React.Component {
     console.log(this.state.id);
 
     return (
-      <div className="App">
+      <div onClick={this.turnOfModals} className="App">
         <header className="header ">
           <div className="container header-container">
             <nav className="menu">
@@ -208,7 +207,7 @@ class App extends React.Component {
             </div>
           </div>
         </header>
-        <main className={`main ${this.state.display ? "blur" : ""}`}>
+        <main className="main">
           {this.state.displayCategoryPage ? (
             <Data
               showProductPage={this.showProductPage}

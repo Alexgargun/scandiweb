@@ -66,7 +66,11 @@ class ProductPage extends React.Component {
                       <h3 className="attributes">{name}:</h3>
                       <div className="product-attributes" key={items.id}>
                         {items.map(({ displayValue, id, value }) => {
-                          return <div key={id}>{displayValue}</div>;
+                          return (
+                            <div key={id} style={{ backgroundColor: value }}>
+                              {displayValue}
+                            </div>
+                          );
                         })}
                       </div>
                     </div>

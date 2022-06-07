@@ -6,6 +6,9 @@
 
 .cart-total-amount {
     padding: 42px 0px 37px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .cart-total-amount .cart-title {
@@ -35,5 +38,9 @@ text-align: left;
 .cart-total-amount .cart-title-semibold {
 font-weight: 500;
 text-align: left;
+}
+
+.cart-page-left {
+    flex-wrap: wrap;
 }
 
