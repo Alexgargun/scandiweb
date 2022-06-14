@@ -1,36 +1,11 @@
 import React from "react";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import Data from "./Data";
-import Router from "./Router";
 import GetRates from "./GetRates";
 import Cart from "./Cart";
 import ProductPage from "./ProductPage";
 import CartPage from "./CartPage";
-import Modal from "react-modal";
-import CartModal from "./CartModal";
-
-const getProducts = gql`
-  {
-    categories {
-      name
-      products {
-        name
-        inStock
-        description
-        gallery
-        brand
-        prices {
-          amount
-          currency {
-            label
-            symbol
-          }
-        }
-      }
-    }
-  }
-`;
+import { getProducts } from "./queries";
 
 class App extends React.Component {
   state = {
@@ -45,11 +20,54 @@ class App extends React.Component {
     id: "ps-5",
     order: {},
     prices: {},
+    attribute: {
+      id: "",
+      color: "",
+      capacity: "",
+      "With USB 3 ports": "",
+      "Touch ID in keyboard": "",
+      size: "",
+    },
+    attributeArray: [],
+  };
+
+  getAttribute = (value, displayValue, name, id) => {
+    const attribute = { ...this.state.attribute };
+    if (id !== attribute.id) {
+      for (let key in attribute) {
+        delete attribute[key];
+      }
+    }
+    if (name === "Color") {
+      attribute.color = displayValue;
+    }
+    if (name === "Size") {
+      attribute.size = value;
+    }
+    if (name === "Capacity") {
+      attribute.capacity = value;
+    }
+    if (name === "With USB 3 ports") {
+      attribute["With USB 3 ports"] = value;
+    }
+    if (name === "Touch ID in keyboard") {
+      attribute["Touch ID in keyboard"] = value;
+    }
+    attribute.id = id;
+    this.setState({ attribute: attribute });
+  };
+
+  pushAttribute = () => {
+    const attribute = { ...this.state.attribute };
+    this.setState({
+      ...this.state.attributeArray.push(attribute),
+    });
+
+    this.setState({ attribute: attribute });
   };
 
   closeCart = () => {
     this.setState({ display: false });
-    console.log("onClose");
   };
 
   showProductPage = () => {
@@ -73,7 +91,13 @@ class App extends React.Component {
     const prices = { ...this.state.prices };
     prices[key] = prices[key] + 1 || 1;
     this.setState({ prices: prices });
-    console.log(prices);
+  };
+
+  addAttribute = () => {
+    const { attribute } = this.state;
+    const { attributeArray } = this.state;
+    attributeArray.push(attribute);
+    this.setState({ attributeArray: attributeArray });
   };
 
   addToOrder = (key) => {
@@ -142,12 +166,9 @@ class App extends React.Component {
     for (let i = 0; i < pricesArray.length; i++) {
       totalAmount += pricesArray[i] * orderArray[i];
     }
+    const attributeArray = [...this.state.attributeArray];
 
     const itemsCount = orderArray.reduce((prev, key) => prev + key, 0);
-
-    const { currencySymbol } = this.state;
-
-    console.log(this.state.id);
 
     return (
       <div onClick={this.turnOfModals} className="App">
@@ -192,6 +213,7 @@ class App extends React.Component {
                 <span className="empty-cart-counter">{itemsCount}</span>
               </div>
               <Cart
+                attributeArray={this.state.attributeArray}
                 closeCart={this.closeCart}
                 deleteFromOrder={this.deleteFromOrder}
                 showCartPage={this.showCartPage}
@@ -219,6 +241,9 @@ class App extends React.Component {
           ) : null}
           {this.state.displayProductPage ? (
             <ProductPage
+              pushAttribute={this.pushAttribute}
+              addAttribute={this.addAttribute}
+              getAttribute={this.getAttribute}
               getAmount={this.getAmount}
               addToOrder={this.addToOrder}
               index={this.state.index}
@@ -227,6 +252,7 @@ class App extends React.Component {
           ) : null}
           {this.state.displayCartPage ? (
             <CartPage
+              attributeArray={this.state.attributeArray}
               display={this.state.display}
               deleteFromOrder={this.deleteFromOrder}
               addToOrder={this.addToOrder}

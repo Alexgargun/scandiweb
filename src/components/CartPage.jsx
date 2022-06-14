@@ -15,6 +15,7 @@ class CartPage extends React.Component {
             {Object.keys(this.props.order).map((key) => {
               return (
                 <CartProductItem
+                  attributeArray={this.props.attributeArray}
                   display={this.props.display}
                   deleteFromOrder={this.props.deleteFromOrder}
                   addToOrder={this.props.addToOrder}

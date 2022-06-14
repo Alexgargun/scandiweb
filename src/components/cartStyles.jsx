@@ -22,7 +22,7 @@ export const ModalStyle = styled.div`
   z-index: 1000;
   min-width: 325px;
   padding: 8px 16px 20px 16px;
-  overflow: hidden;
+  }
 `;
 
 export const OverlayStyle = styled.div`
@@ -32,6 +32,8 @@ export const OverlayStyle = styled.div`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const ModalWrapper = styled.div`

@@ -365,7 +365,7 @@ text-align: left;
   gap: 12px;
 }
 
-.product-attributes div {
+.product-attributes-product-page {
   border: 1px solid #1D1F22;
   padding: 14px 27px;
   cursor: pointer;
@@ -396,7 +396,7 @@ text-align: left;
   line-height: 18px;
   letter-spacing: 0em;
   text-align: left;
-  padding: 12px;
+  padding: 12px 0px;
 }
 .current-price-modal {
   font-family: 'Raleway';
@@ -404,7 +404,7 @@ text-align: left;
   font-weight: 500;
   line-height: 26px;
   letter-spacing: 0em;
-  padding: 12px;
+  padding: 4px 0px;
 }
 
 
@@ -431,6 +431,12 @@ text-align: left;
   max-width: 325px;
   display: grid;
   grid-template-columns: 1fr 140px;
+}
+.cart-page-item-page {
+  padding: 20px 0px;
+  border-top: 1px solid #E5E5E5;
+  display: flex;
+  justify-content: space-between;
 }
 
 
@@ -462,21 +468,27 @@ text-align: left;
   justify-content: space-between;
   align-items: center;
 }
-/* 
-.cart-page-buttons button {
+
+.cart-page-button {
   font-size: 30px;
   border: 1px solid #1D1F22;
   height: 45px;
   width: 45px;
   cursor: pointer;
 }
-.cart-page-buttons-modal button {
-  font-size: 15px;
-  border: 1px solid #1D1F22;
-  height: 24px;
+
+.cart-page-button-modal {
   width: 24px;
-  cursor: pointer;
-} */
+  height: 24px;
+  font-size: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-page-count {
+  font-size: 30px;
+}
 
 .cart-page-image {
   width: 140px;
@@ -491,12 +503,45 @@ text-align: left;
 
 .cart-page-buttons  p {
   font-family: 'Raleway';
-  font-size: 24px;
   font-weight: 500;
   line-height: 38px;
 }
-/* 
-button {
-  padding: 6px;
-} */
 
+.attributes-wrapper-cart {
+  border: none;
+  
+}
+
+.attribute-item-modal {
+  min-height: 24px;
+  min-width: 24px;
+  cursor: pointer;
+  border: 1px solid #1d1f22;
+  padding: 2px;
+  display: inline-flex;
+  margin: 8px 8px 0 0;
+  transition: all 0.3s ease;
+}
+.attribute-item {
+  border: 1px solid #1D1F22;
+  padding: 14px 27px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.attributes-modal{
+font-family: 'Raleway';
+font-size: 16px;
+font-weight: 300;
+line-height: 26px;
+letter-spacing: 0px;
+text-align: left;
+
+}
+
+/* Product Description */
+
+.product-data p {
+  display: inline;
+  margin: 30px 0px;
+}

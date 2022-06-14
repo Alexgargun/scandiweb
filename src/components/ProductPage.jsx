@@ -1,4 +1,5 @@
 import React from "react";
+import CartProduct from "./CartProduct";
 
 import ProductPrice from "./ProductPrice";
 import withHocs from "./queryHoc";
@@ -7,11 +8,6 @@ class ProductPage extends React.Component {
   state = {
     mainImage: "",
   };
-
-  // setMainImage = (key) => {
-  //   console.log(key);
-  //   //this.setState({ mainImage: key });
-  // };
 
   handleSearch = () => {
     const { data } = this.props;
@@ -28,8 +24,8 @@ class ProductPage extends React.Component {
     const { gallery = [] } = product;
     const { prices = [] } = product;
     const { attributes = [] } = product;
-
-    console.log(product);
+    const { description } = product;
+    console.log(description);
 
     const newAmount = prices.map(({ amount }) => {
       return amount;
@@ -60,14 +56,26 @@ class ProductPage extends React.Component {
                 <h3 className="name">
                   {product.name} <span></span>{" "}
                 </h3>
-                {attributes.map(({ name, items, id }) => {
+                {attributes.map(({ name, items, id, type }) => {
                   return (
                     <div className="attributes-wrapper" key={id}>
                       <h3 className="attributes">{name}:</h3>
                       <div className="product-attributes" key={items.id}>
                         {items.map(({ displayValue, id, value }) => {
                           return (
-                            <div key={id} style={{ backgroundColor: value }}>
+                            <div
+                              className="product-attributes-product-page"
+                              key={id}
+                              style={{ backgroundColor: value }}
+                              onClick={() =>
+                                this.props.getAttribute(
+                                  value,
+                                  displayValue,
+                                  name,
+                                  (id = this.props.id)
+                                )
+                              }
+                            >
                               {displayValue}
                             </div>
                           );
@@ -81,6 +89,7 @@ class ProductPage extends React.Component {
                 {Object.keys(prices).map((key) => {
                   return (
                     <ProductPrice
+                      addAttribute={this.props.addAttribute}
                       newAmount={newAmount}
                       addToOrder={this.props.addToOrder}
                       id={this.props.id}
@@ -92,7 +101,11 @@ class ProductPage extends React.Component {
                     />
                   );
                 })}
-                {/* <button onClick={this.handleClick}>Add to cart</button> */}
+                <CartProduct description={description} />
+
+                {/* <button onClick={this.props.pushAttribute}>
+                  Add to cart 2
+                </button> */}
               </div>
             </div>
           </div>

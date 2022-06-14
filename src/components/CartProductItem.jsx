@@ -23,12 +23,15 @@ class CartProductItem extends React.Component {
     const { product = {} } = data;
     const { gallery = [] } = product;
     const { prices = [] } = product;
-    const { attributes = [] } = product;
-    console.log(this.props.count);
-    console.log(data);
+    //const { attributes = [] } = product;
+    console.log(this.props.attributeArray);
 
     return (
-      <div className="cart-page-item">
+      <div
+        className={
+          this.props.display ? "cart-page-item" : "cart-page-item-page"
+        }
+      >
         <div className="cart-page-left">
           <h2
             className={
@@ -58,36 +61,66 @@ class CartProductItem extends React.Component {
                 : "product-attributes"
             }
           >
-            {attributes.map(({ items, id, name, type }) => {
-              if (type === "text")
-                return (
-                  <Attributes key={id} items={items} name={name} type={type} />
-                );
+            {this.props.attributeArray.map((key) => {
+              if (key.id === this.props.id)
+                return Object.entries(key).map((item) => {
+                  if (item[0] !== "id")
+                    return (
+                      <div key={item}>
+                        <h3
+                          className={
+                            this.props.display
+                              ? "attributes-modal"
+                              : "attributes"
+                          }
+                        >
+                          {item[0]}
+                        </h3>
+                        <div
+                          className={
+                            this.props.display
+                              ? "attribute-item-modal"
+                              : "attribute-item"
+                          }
+                          style={{ backgroundColor: `${item[1]}` }}
+                        >
+                          {item[1]}
+                        </div>
+                      </div>
+                    );
+                });
             })}
-            {/* {attributes.map(({ items }) => {
-              return items.map(({ displayValue, id, value }) => {
-                return (
-                  <div style={{ backgroundColor: value }} key={id}>
-                    {displayValue}
-                  </div>
-                );
-              });
-            })} */}
           </div>
         </div>
         <div className="cart-page-right">
           <div className="cart-page-buttons">
-            <StyledCartButton
+            <button
+              className={
+                this.props.display
+                  ? "cart-page-button-modal"
+                  : "cart-page-button"
+              }
               onClick={() => this.props.addToOrder(this.props.id)}
             >
               +
-            </StyledCartButton>
-            <p>{this.props.count}</p>
-            <StyledCartButton
+            </button>
+            <p
+              className={
+                this.props.display ? "cart-page-count-modal" : "cart-page-count"
+              }
+            >
+              {this.props.count}
+            </p>
+            <button
+              className={
+                this.props.display
+                  ? "cart-page-button-modal"
+                  : "cart-page-button"
+              }
               onClick={() => this.props.deleteFromOrder(this.props.id)}
             >
               -
-            </StyledCartButton>
+            </button>
           </div>
           <div className="cart-page-image">
             <img src={gallery} alt="" />

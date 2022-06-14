@@ -1,5 +1,13 @@
 import { gql } from "apollo-boost";
 
+export const getProducts = gql`
+  {
+    categories {
+      name
+    }
+  }
+`;
+
 export const getRates = gql`
   {
     currencies {

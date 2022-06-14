@@ -11,14 +11,13 @@ export const StyledTextAttribute = styled.div`
   border: 1px solid #1d1f22;
   padding: 2px;
   display: inline-flex;
-  gap: 8px;
+  margin: 8px 8px 0 0;
   transition: all 0.3s ease;
 `;
 
-export const StyledCartButton = styled.button`
-  width: 24px;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+export const StyledAttributeValue = styled.div`
+border: 1px solid #1D1F22;
+padding: 14px 27px;
+cursor: pointer;
+transition: all 0.3s ease;
+`

@@ -2,7 +2,9 @@ import React from "react";
 
 class CartProductPrice extends React.Component {
   render() {
-    const currentAmount = this.props.count * this.props.pricesDetails.amount;
+    const currentAmount = (
+      this.props.count * this.props.pricesDetails.amount
+    ).toFixed(2);
     return (
       <>
         <div>

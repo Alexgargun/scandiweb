@@ -1,20 +1,31 @@
 import React from "react";
-import {
-  StyledTextAttribute,
-  StyledTextAttributeWrapper,
-} from "./attributesStyled";
+import { StyledTextAttribute } from "./attributesStyled";
 
 class Attributes extends React.Component {
   render() {
-    const { items } = this.props;
+    const { items, name, id, display } = this.props;
+    console.log(display);
+
     return (
-      <StyledTextAttributeWrapper>
+      <div
+        className={
+          display ? "attributes-wrapper-cart-modal" : "attributes-wrapper-cart"
+        }
+        key={id}
+      >
+        <h3 className={display ? "attributes-modal" : "attributes"}>{name}:</h3>
         {items.map(({ displayValue, id, value }) => {
           return (
-            <StyledTextAttribute key={id}>{displayValue}</StyledTextAttribute>
+            <div
+              className="attribute-item"
+              key={id}
+              style={{ backgroundColor: value }}
+            >
+              {displayValue}
+            </div>
           );
         })}
-      </StyledTextAttributeWrapper>
+      </div>
     );
   }
 }

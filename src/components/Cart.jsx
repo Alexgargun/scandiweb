@@ -27,6 +27,7 @@ class Cart extends React.Component {
             {Object.keys(this.props.order).map((key) => {
               return (
                 <CartProductItem
+                  attributeArray={this.props.attributeArray}
                   deleteFromOrder={this.props.deleteFromOrder}
                   addToOrder={this.props.addToOrder}
                   display={this.props.display}
@@ -41,7 +42,7 @@ class Cart extends React.Component {
               <h4 className="cart-title-semibold">Total</h4>
               <h4 className="cart-title">
                 {" "}
-                {this.props.currencySymbol} {this.props.totalAmount}{" "}
+                {this.props.currencySymbol} {this.props.totalAmount.toFixed(2)}{" "}
               </h4>
             </div>
 
